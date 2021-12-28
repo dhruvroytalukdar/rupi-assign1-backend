@@ -84,7 +84,17 @@ router.post("/register", (req, res) => {
         password: password,
       });
       user.save();
-      res.send(user);
+      const accessToken = generateAccessToken(user);
+      const refreshToken = jwt.sign(
+        user.toJSON(),
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      await Token.create({ token: refreshToken });
+      res.json({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        user: user,
+      });
     }
   });
 });
