@@ -67,6 +67,25 @@ router.post("/login", (req, res) => {
   });
 });
 
+router.post("/me", (req, res) => {
+  Token.findOne({ token: req.body.token }, (err, obj) => {
+    if (err || !obj) {
+      res.statusCode = 403;
+      res.send({ message: "Token does not exist" });
+    } else {
+      jwt.verify(obj.token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) {
+          console.error(err);
+          return res.sendStatus(403);
+        }
+        const accessToken = generateAccessToken(user);
+        res.statusCode = 200;
+        res.json({ accessToken: accessToken, user: user });
+      });
+    }
+  });
+});
+
 router.post("/register", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
@@ -76,7 +95,7 @@ router.post("/register", (req, res) => {
     if (err || user) {
       console.error(err, user);
       res.statusCode = 400;
-      res.send({ message: "User already exists." });
+      res.send({ message: "User already exists with that email" });
     } else {
       const user = await User.create({
         email: email,
