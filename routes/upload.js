@@ -22,7 +22,13 @@ router.post(
   "/upload",
   [checkAuthToken, multerObj.single("file")],
   async (req, res) => {
-    if (["image/png", "image/jpeg"].includes(req.file.mimetype) == -1) {
+    const matchList = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/jpeg/png",
+    ];
+    if (!matchList.includes(req.file.mimetype)) {
       res.statusCode = 403;
       res.send({ message: "File type not allowed" });
     } else {

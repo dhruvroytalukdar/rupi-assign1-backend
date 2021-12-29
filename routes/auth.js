@@ -67,7 +67,7 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.post("/me", (req, res) => {
+router.get("/me", (req, res) => {
   Token.findOne({ token: req.body.token }, (err, obj) => {
     if (err || !obj) {
       res.statusCode = 403;
