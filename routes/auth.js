@@ -78,9 +78,11 @@ router.post("/me", (req, res) => {
           console.error(err);
           return res.sendStatus(403);
         }
-        const accessToken = generateAccessToken(user);
-        res.statusCode = 200;
-        res.json({ accessToken: accessToken, user: user });
+        User.findOne({ email: user.email }, (err, dbuser) => {
+          const accessToken = generateAccessToken(dbuser);
+          res.statusCode = 200;
+          res.json({ accessToken: accessToken, user: dbuser });
+        });
       });
     }
   });

@@ -10,7 +10,6 @@ const {
 const multer = require("multer");
 const checkAuthToken = require("../middlewares/checkAuthToken");
 const router = express.Router();
-
 const storage = getStorage();
 const multerObj = multer({
   storage: multer.memoryStorage(),
@@ -31,7 +30,7 @@ router.post(
         const imagesRef = ref(storage, `images/${req.user.email}`);
         const imageBuffer = new Uint8Array(req.file.buffer);
         await uploadBytes(imagesRef, imageBuffer, {
-          contentType: req.file.mimetype,
+          contentType: "image/jpeg",
         });
         var url = await getDownloadURL(imagesRef);
         User.findOne({ email: req.user.email }, (err, user) => {
