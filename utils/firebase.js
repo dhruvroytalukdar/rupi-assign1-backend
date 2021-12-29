@@ -3,12 +3,12 @@ const { getStorage } = require("firebase/storage");
 
 function initializeFirebaseApp() {
   const firebaseConfig = {
-    apiKey: "AIzaSyDSAEQ6eE8BVjatytLQ_EL-9Wnr1eFmcTo",
-    authDomain: "rupi-assignment1.firebaseapp.com",
-    projectId: "rupi-assignment1",
-    storageBucket: "rupi-assignment1.appspot.com",
-    messagingSenderId: "839613906739",
-    appId: "1:839613906739:web:bbf714909d5253f4700846",
+    apiKey: process.env.FIREBASE_APIKEY,
+    authDomain: process.env.FIREBASE_AUTHDOMAIN,
+    projectId: process.env.FIREBASE_PROJECTID,
+    storageBucket: process.env.FIREBASE_STORAGEBUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID,
+    appId: process.env.FIREBASE_APPID,
   };
 
   const app = initializeApp(firebaseConfig);
